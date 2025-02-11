@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: jamlyapp-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: jamlyapp
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: jamlyapp-api
+    restart: always
+    environment:
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: postgres
+      DATABASE_NAME: jamlyapp
+      JWT_SECRET: supersecret
+      PORT: 3001
+    depends_on:
+      - postgres
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
+
+volumes:
+  pgdata:
