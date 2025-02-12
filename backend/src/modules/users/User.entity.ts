@@ -2,6 +2,12 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Space } from '../spaces/Space.entity';
 import { Booking } from '../bookings/Booking.entity';
 
+export enum UserRole {
+  ADMIN = 'admin',
+  OWNER = 'owner',
+  ARTIST = 'artist',
+}
+
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')
@@ -13,8 +19,12 @@ export class User {
   @Column()
   password: string;
 
-  @Column({ default: 'artist' }) // 'artist' o 'owner'
-  role: 'artist' | 'owner';
+  @Column({
+    type: 'enum',
+    enum: UserRole,
+    default: UserRole.ARTIST, // Por defecto, los nuevos usuarios serán artistas
+  })
+  role: UserRole;
 
   @OneToMany(() => Space, (space) => space.owner)
   spaces: Space[];

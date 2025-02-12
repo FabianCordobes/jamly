@@ -27,4 +27,14 @@ export class Space {
 
   @OneToMany(() => Booking, (booking) => booking.space)
   bookings: Booking[];
+
+  @Column({ default: true })
+  isAvailable: boolean;
+
+  @Column({ type: 'time', nullable: true })
+  openTime: string;
+
+  @Column({ type: 'time', nullable: true })
+  closeTime: string;
+  
 }

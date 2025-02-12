@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsNumber, IsOptional, IsArray, IsUUID } from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber, IsOptional, IsArray, IsUUID, Matches } from 'class-validator';
 
 export class CreateSpaceDto {
   @IsString()
@@ -22,4 +22,12 @@ export class CreateSpaceDto {
 
   @IsUUID()
   ownerId: string;
+
+  @IsOptional()
+  @Matches(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, { message: 'Formato de hora inválido. Usa HH:mm' })
+  openTime?: string;
+
+  @IsOptional()
+  @Matches(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, { message: 'Formato de hora inválido. Usa HH:mm' })
+  closeTime?: string;
 }

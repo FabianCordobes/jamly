@@ -9,9 +9,11 @@ export class CreateBookingDto {
   @IsNotEmpty()
   endTime: Date;
 
+  @IsNotEmpty()
   @IsUUID()
   artistId: string;
-
+  
+  @IsNotEmpty()
   @IsUUID()
   spaceId: string;
 }
